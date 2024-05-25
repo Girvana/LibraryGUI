@@ -10,8 +10,9 @@ namespace LibraryGUI
     internal class MediaInfo
     {
         //## Fields ##
-
+        private static int NextID;
         private int id;
+        private string isbn;
         private List<string> authors;
         private string title;
         private string description;
@@ -45,15 +46,17 @@ namespace LibraryGUI
             set => description = string.Concat(value.Split('█')); //removes any instance of '█' delimeter character from blurb
         }
         //## Constructors ##
-        public MediaInfo(int isbn)
+        public MediaInfo(string isbn)
         {
             try
             {
                 var info = GoogleBooksRetriever.GetInfoFromISBN(isbn);
-                this.id = isbn;
+                this.isbn = isbn;
                 this.title = info.title;
                 this.description = info.description;
                 this.authors = info.authors;
+                this.id = NextID;
+                NextID++;
             }
             catch (Exception ex)
             {
@@ -64,6 +67,14 @@ namespace LibraryGUI
         public override string ToString()
         {
             return $"{ID}█{Authors}█{Title}█{Description}";
+        }
+
+        /// <summary>
+        /// <c>ForceNextID</c> should NOT be called by anything other than the storage manager.
+        /// </summary>
+        internal static void ForceNextID(int id) 
+        {
+            NextID = id;
         }
     }
 

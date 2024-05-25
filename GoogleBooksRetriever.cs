@@ -12,7 +12,7 @@ namespace LibraryGUI
 {
     internal class GoogleBooksRetriever
     {
-        public static (string title, string description, List<string> authors) GetInfoFromISBN(int isbn)
+        public static (string title, string description, List<string> authors) GetInfoFromISBN(string isbn)
         {
             var client = new WebClient();
             string apiResponse = client.DownloadString($"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"); //google books api call

@@ -10,7 +10,7 @@ namespace LibraryGUI
     internal class MediaItem
     {
         //## Fields ##
-        private static int nextMediaItemID = 1;
+        private static int NextID = 1;
         private int id;
         public enum MediaTypes { Book, Article, Digital, Other }
         private MediaTypes mediaType;
@@ -44,11 +44,19 @@ namespace LibraryGUI
         //## Constructors ##
         public MediaItem(MediaInfo mediaInfo)
         {
-            id = nextMediaItemID;
-            nextMediaItemID++;
+            id = NextID;
+            NextID++;
             details = mediaInfo;
         }
         //## Methods ##
+
+        /// <summary>
+        /// <c>ForceNextID</c> should NOT be called by anything other than the storage manager.
+        /// </summary>
+        internal static void ForceNextID(int id)
+        {
+            NextID = id;
+        }
         public string[] ToArray()
         {
             var values = new List<string>();
