@@ -35,10 +35,11 @@ namespace LibraryGUI
         {
             if (login_username.Text == "" || login_password.Text == "")
             {
-                MessageBox.Show("Please fill all blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please fill all blank fields", "Empty Fields", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
-            {/*
+            {
+                /*
                 if (connect.State != ConnectionState.Open)
                 {
                     try

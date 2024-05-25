@@ -14,6 +14,7 @@ namespace LibraryGUI
         private Dictionary<int, Student> students = new Dictionary<int, Student>();
         private Dictionary<int, Staff> staff = new Dictionary<int, Staff>();
         private Dictionary<int, MediaItem> media = new Dictionary<int, MediaItem>();
+        private Dictionary<int, MediaInfo> cachedInfo = new Dictionary<int, MediaInfo>();
         private Dictionary<MediaItem, Account> borrowedItems = new Dictionary<MediaItem, Account>();
         private DateTime lastOverdueCheck = DateTime.Today;
         //## Properties ##

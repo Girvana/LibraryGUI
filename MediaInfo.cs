@@ -10,10 +10,9 @@ namespace LibraryGUI
     internal class MediaInfo
     {
         //## Fields ##
-        public enum MediaTypes { Book, Article, Digital, Other }
+
         private int id;
-        private MediaTypes mediaType;
-        private string author;
+        private List<string> authors;
         private string title;
         private string description;
 
@@ -22,17 +21,19 @@ namespace LibraryGUI
         {
             get => id;
         }
-        public string MediaType
+
+        public string Authors
         {
-            get => mediaType.ToString();
-        }
-        public int MediaInt
-        {
-            get => (int)mediaType;
-        }
-        public string Author
-        {
-            get => author;
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (string s in authors)
+                {
+                    sb.Append(s + ", ");
+                }
+                sb.Length -= 2;
+                return sb.ToString();
+            }
         }
         public string Title
         {
@@ -44,13 +45,19 @@ namespace LibraryGUI
             set => description = string.Concat(value.Split('█')); //removes any instance of '█' delimeter character from blurb
         }
         //## Constructors ##
-        public MediaInfo(int id)
+        public MediaInfo(int isbn)
         {
+            var info = GoogleBooksRetriever.GetInfoFromISBN(isbn);
+            this.id = isbn;
+            
+            this.title = info.title;
+            this.description = info.description;
+            this.authors = info.authors;
         }
         //## Methods ##
         public string ToString()
         {
-            return $"{ID}█{MediaInt}█{Author}█{Title}█{Description}";
+            return $"{ID}█{Authors}█{Title}█{Description}";
         }
     }
 
