@@ -61,7 +61,7 @@ namespace LibraryGUI
             values.Add(details.ID.ToString());
             return values.ToArray();
         }
-        public string ToString()
+        public override string ToString()
         {
             var values = new StringBuilder();
             values.Append(id.ToString() + "█");

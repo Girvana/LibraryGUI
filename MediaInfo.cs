@@ -47,15 +47,21 @@ namespace LibraryGUI
         //## Constructors ##
         public MediaInfo(int isbn)
         {
-            var info = GoogleBooksRetriever.GetInfoFromISBN(isbn);
-            this.id = isbn;
-            
-            this.title = info.title;
-            this.description = info.description;
-            this.authors = info.authors;
+            try
+            {
+                var info = GoogleBooksRetriever.GetInfoFromISBN(isbn);
+                this.id = isbn;
+                this.title = info.title;
+                this.description = info.description;
+                this.authors = info.authors;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         //## Methods ##
-        public string ToString()
+        public override string ToString()
         {
             return $"{ID}█{Authors}█{Title}█{Description}";
         }
