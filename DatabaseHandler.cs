@@ -62,14 +62,18 @@ namespace LibraryGUI
                 try
                 {
                     connection.Open();
-                    string existsQuery = "SELECT EXISTS (SELECT 1 FROM passwords WHERE Username = @Username)";
+                    string existsQuery = "SELECT EXISTS (SELECT 1 FROM passwords WHERE LOWER(Username) = LOWER(@Username))";
                     SQLiteCommand exists = new SQLiteCommand(existsQuery, connection);
                     exists.Parameters.AddWithValue("@Username", username);
                     return Convert.ToBoolean(exists.ExecuteScalar());
                 }
                 catch(Exception ex)
                 {
-                    throw new Exception("Error Checking if Account Exists");
+                    ErrorHandler error = new();
+                    error.Title("Error Checking if Account Exists");
+                    error.Add($"Something went wrong checking the database. This error should not occur. Caused by: \n{ex.Message}");
+                    error.Display();
+                    throw new Exception("Account Check Exception - Data can not be verified, unsafe to continue");
                 }
                 finally
                 {
@@ -127,7 +131,8 @@ namespace LibraryGUI
                 using var connection = new SQLiteConnection(ConnectionString(passDBPath));
                 {
                     connection.Open();
-                    var command = new SQLiteCommand($"SELECT * FROM passwords WHERE username=\"{username}\"", connection);
+                    var command = new SQLiteCommand($"SELECT * FROM passwords WHERE LOWER(Username) == LOWER(@Username)", connection);
+                    command.Parameters.AddWithValue("@Username", username);
                     using var reader = command.ExecuteReader();
                     while (reader.Read())
                     {

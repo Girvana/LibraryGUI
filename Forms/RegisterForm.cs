@@ -34,9 +34,9 @@ namespace LibraryGUI
             }
             else
             {
-                string username = AccountHandler.CheckUsername(register_username.Text);
-                string password = AccountHandler.CheckPassword(register_password.Text);
-                string email = AccountHandler.CheckEmail(register_email.Text);
+                string username = AccountHandler.CheckUsername(register_username.Text, Program.errorHandler);
+                string password = AccountHandler.CheckPassword(register_password.Text, Program.errorHandler);
+                string email = AccountHandler.CheckEmail(register_email.Text, Program.errorHandler);
                 if (username != "" && password != "")
                 {
                     var newAccount = AccountHandler.CreateAccount(username, password, email);
@@ -44,7 +44,7 @@ namespace LibraryGUI
                     {
                         DatabaseHandler.SaveAccount(newAccount);
                     }
-
+                    Program.errorHandler.Display();
                 }
             }
         }

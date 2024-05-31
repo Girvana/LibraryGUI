@@ -36,79 +36,82 @@ namespace LibraryGUI
         }
 
         //String Validation
-        public static string CheckUsername(string username, bool verbose = true)
+        public static string CheckUsername(string username, ErrorHandler handler)
         {
-            try
-            {
                 string regex = @"^[A-Za-z\d]+$";
                 Regex re = new Regex(regex);
+                bool isValid = true;
                 if (!re.IsMatch(username))
                 {
-                    throw new Exception("Username must contain only English letters and numbers");
+                    handler.Add("Username must contain only English letters and numbers");
+                    isValid = false;
                 }
                 if (username.Length < 6)
                 {
-                    throw new Exception("Username must be at least 6 characters");
+                    handler.Add("Username must be at least 6 characters");
+                    isValid = false;
                 }
                 if (username.Length > 24)
                 {
-                    throw new Exception("Username must be at most 24 characters");
+                    handler.Add("Username must be at most 24 characters");
+                    isValid = false;
                 }
-                return username;
-            }
-            catch (Exception e)
-            {
-                if (verbose) MessageBox.Show(e.Message, "Invalid Username");
-                return "";
-            }
+                if (!isValid)
+                {
+                    handler.Title("Invalid Username");
+                    return "";
+                }
+                else return username;
         }
-        public static string CheckPassword(string password, bool verbose = true)
+        public static string CheckPassword(string password, ErrorHandler handler)
         {
-            try
+
+            string regex = @"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$";
+            Regex re = new Regex(regex);
+            bool isValid = true;
+            if (!re.IsMatch(password))
             {
-                string regex = @"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$";
-                Regex re = new Regex(regex);
-                if (!re.IsMatch(password))
-                {
-                    throw new Exception("Password must have at least one letter, one number, and one special character (@$!%*#?&)");
-                }
-                if (password.Length < 8)
-                {
-                    throw new Exception("Username must be at least 8 characters");
-                }
-                if (password.Length > 32)
-                {
-                    throw new Exception("Password must be at most 32 characters");
-                }
-                return password;
+                handler.Add("Password must have at least one letter, one number, and one special character (@$!%*#?&)");
+                isValid = false;
             }
-            catch (Exception e)
+            if (password.Length < 8)
             {
-                if (verbose) MessageBox.Show(e.Message, "Invalid Password");
+                handler.Add("Username must be at least 8 characters");
+                isValid = false;
+            }
+            if (password.Length > 32)
+            {
+                handler.Add("Password must be at most 32 characters");
+                isValid = false;
+            }
+            if (!isValid)
+            {
+                handler.Title("Invalid Password");
                 return "";
             }
+            else return password;
         }
-        public static string CheckEmail(string email, bool verbose = true)
+        public static string CheckEmail(string email, ErrorHandler handler)
         {
-            try
+            string regex = @"^[^.@\s][^@\s]+[^.@\s]@[^.@\s]+\.[^.@\s]+$";
+            Regex re = new Regex(regex);
+            bool isValid = true;
+            if (!re.IsMatch(email))
             {
-                string regex = @"^[^.@\s][^@\s]+[^.@\s]@[^.@\s]+\.[^.@\s]+$";
-                Regex re = new Regex(regex);
-                if (!re.IsMatch(email))
-                {
-                    throw new Exception("Email address is not in a recognized format.");
-                }
-                if (email.Length > 254)
-                {
-                    throw new Exception("Email too long!");
-                }
-                return email;
+                handler.Add("Email address is not in a recognized format.");
+                isValid = false;
             }
-            catch (Exception e)
+            if (email.Length > 254)
             {
-                if (verbose) MessageBox.Show(e.Message, "Invalid Email Address");
+                handler.Add("Email too long!");
+                isValid = false;
+            }
+            if (!isValid)
+            {
+                handler.Title("Invalid Email");
                 return "";
             }
+            else return email;
         }
 
         //Handler
@@ -116,7 +119,7 @@ namespace LibraryGUI
         {
             if (!DatabaseHandler.AccountExists(username))
             {
-                MessageBox.Show("Account not found");
+                MessageBox.Show("Account not found", "Login Failed", MessageBoxButtons.OK);
             }
             else
             {
@@ -127,7 +130,7 @@ namespace LibraryGUI
                 }
                 else
                 {
-                    MessageBox.Show("Incorrect Password");
+                    MessageBox.Show("Incorrect Password", "Login Failed", MessageBoxButtons.OK);
                 }
             }
         }

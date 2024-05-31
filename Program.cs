@@ -9,10 +9,13 @@ namespace LibraryGUI
 {
     internal static class Program
     {
+        internal static ErrorHandler errorHandler = new ErrorHandler();
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
+
         static void Main()
         {
             DatabaseHandler.InitializeDatabase();

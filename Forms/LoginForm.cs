@@ -29,12 +29,13 @@ namespace LibraryGUI
             }
             else
             {
-                string username = AccountHandler.CheckUsername(login_username.Text);
-                string password = AccountHandler.CheckPassword(login_password.Text);
+                string username = AccountHandler.CheckUsername(login_username.Text, Program.errorHandler);
+                string password = AccountHandler.CheckPassword(login_password.Text, Program.errorHandler);
                 if (username != "" && password != "")
                 {
                     AccountHandler.Login(username, password);
                 }
+                Program.errorHandler.Display();
             }
         }
 
