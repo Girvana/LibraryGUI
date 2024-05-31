@@ -37,7 +37,7 @@
             label3 = new Label();
             label2 = new Label();
             panel1 = new Panel();
-            label1 = new Label();
+            exitButton = new Label();
             register_email = new TextBox();
             label5 = new Label();
             panel1.SuspendLayout();
@@ -51,10 +51,10 @@
             register_showPass.Margin = new Padding(4, 3, 4, 3);
             register_showPass.Name = "register_showPass";
             register_showPass.Size = new Size(117, 20);
-            register_showPass.TabIndex = 17;
+            register_showPass.TabIndex = 3;
             register_showPass.Text = "Show Password";
             register_showPass.UseVisualStyleBackColor = true;
-            register_showPass.CheckedChanged += checkBox1_CheckedChanged;
+            register_showPass.CheckedChanged += register_showPass_CheckedChanged;
             // 
             // signIn_btn
             // 
@@ -70,7 +70,7 @@
             signIn_btn.Margin = new Padding(4, 3, 4, 3);
             signIn_btn.Name = "signIn_btn";
             signIn_btn.Size = new Size(328, 46);
-            signIn_btn.TabIndex = 16;
+            signIn_btn.TabIndex = 6;
             signIn_btn.Text = "LOGIN";
             signIn_btn.UseVisualStyleBackColor = false;
             signIn_btn.Click += signIn_btn_Click;
@@ -89,19 +89,21 @@
             register_btn.Margin = new Padding(4, 3, 4, 3);
             register_btn.Name = "register_btn";
             register_btn.Size = new Size(328, 46);
-            register_btn.TabIndex = 15;
+            register_btn.TabIndex = 5;
             register_btn.Text = "REGISTER";
             register_btn.UseVisualStyleBackColor = false;
+            register_btn.Click += register_btn_Click;
             // 
             // register_password
             // 
+            register_password.Font = new Font("Segoe UI", 14.25F);
             register_password.Location = new Point(14, 276);
             register_password.Margin = new Padding(4, 3, 4, 3);
-            register_password.Multiline = true;
             register_password.Name = "register_password";
             register_password.PasswordChar = '*';
-            register_password.Size = new Size(327, 34);
-            register_password.TabIndex = 14;
+            register_password.Size = new Size(327, 33);
+            register_password.TabIndex = 2;
+            register_password.KeyPress += register_password_KeyPress;
             // 
             // label4
             // 
@@ -116,12 +118,13 @@
             // 
             // register_username
             // 
+            register_username.Font = new Font("Segoe UI", 14.25F);
             register_username.Location = new Point(14, 190);
             register_username.Margin = new Padding(4, 3, 4, 3);
-            register_username.Multiline = true;
             register_username.Name = "register_username";
-            register_username.Size = new Size(327, 34);
-            register_username.TabIndex = 12;
+            register_username.Size = new Size(327, 33);
+            register_username.TabIndex = 1;
+            register_username.KeyPress += register_username_KeyPress;
             // 
             // label3
             // 
@@ -149,7 +152,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(50, 82, 21);
-            panel1.Controls.Add(label1);
+            panel1.Controls.Add(exitButton);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Margin = new Padding(4, 3, 4, 3);
@@ -157,29 +160,29 @@
             panel1.Size = new Size(373, 40);
             panel1.TabIndex = 9;
             // 
-            // label1
+            // exitButton
             // 
-            label1.AutoSize = true;
-            label1.Cursor = Cursors.Hand;
-            label1.Font = new Font("Arial", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(343, 10);
-            label1.Margin = new Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(14, 14);
-            label1.TabIndex = 1;
-            label1.Text = "X";
-            label1.Click += label1_Click;
+            exitButton.AutoSize = true;
+            exitButton.Cursor = Cursors.Hand;
+            exitButton.Font = new Font("Arial", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            exitButton.ForeColor = Color.White;
+            exitButton.Location = new Point(343, 10);
+            exitButton.Margin = new Padding(4, 0, 4, 0);
+            exitButton.Name = "exitButton";
+            exitButton.Size = new Size(14, 14);
+            exitButton.TabIndex = 7;
+            exitButton.Text = "X";
+            exitButton.Click += exitButton_Click;
             // 
             // register_email
             // 
+            register_email.Font = new Font("Segoe UI", 14.25F);
             register_email.Location = new Point(14, 363);
             register_email.Margin = new Padding(4, 3, 4, 3);
-            register_email.Multiline = true;
             register_email.Name = "register_email";
-            register_email.PasswordChar = '*';
-            register_email.Size = new Size(327, 34);
-            register_email.TabIndex = 19;
+            register_email.Size = new Size(327, 33);
+            register_email.TabIndex = 4;
+            register_email.KeyPress += register_email_KeyPress;
             // 
             // label5
             // 
@@ -191,7 +194,6 @@
             label5.Size = new Size(41, 18);
             label5.TabIndex = 18;
             label5.Text = "Email";
-            label5.Click += label5_Click;
             // 
             // RegisterForm
             // 
@@ -232,7 +234,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label exitButton;
         private System.Windows.Forms.TextBox register_email;
         private System.Windows.Forms.Label label5;
     }

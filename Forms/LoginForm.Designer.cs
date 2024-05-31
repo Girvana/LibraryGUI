@@ -63,7 +63,7 @@
             exitButton.Margin = new Padding(4, 0, 4, 0);
             exitButton.Name = "exitButton";
             exitButton.Size = new Size(14, 14);
-            exitButton.TabIndex = 1;
+            exitButton.TabIndex = 6;
             exitButton.Text = "X";
             exitButton.Click += exitButton_Click;
             // 
@@ -91,23 +91,24 @@
             // 
             // login_username
             // 
+            login_username.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             login_username.Location = new Point(14, 190);
             login_username.Margin = new Padding(4, 3, 4, 3);
-            login_username.Multiline = true;
             login_username.Name = "login_username";
-            login_username.Size = new Size(327, 34);
-            login_username.TabIndex = 3;
-            login_username.TextChanged += textBox1_TextChanged;
+            login_username.Size = new Size(327, 33);
+            login_username.TabIndex = 1;
+            login_username.KeyPress += login_username_KeyPress;
             // 
             // login_password
             // 
+            login_password.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             login_password.Location = new Point(14, 276);
             login_password.Margin = new Padding(4, 3, 4, 3);
-            login_password.Multiline = true;
             login_password.Name = "login_password";
             login_password.PasswordChar = '*';
-            login_password.Size = new Size(327, 34);
-            login_password.TabIndex = 5;
+            login_password.Size = new Size(327, 33);
+            login_password.TabIndex = 2;
+            login_password.KeyPress += login_password_KeyPress;
             // 
             // label4
             // 
@@ -134,7 +135,7 @@
             loginBtn.Margin = new Padding(4, 3, 4, 3);
             loginBtn.Name = "loginBtn";
             loginBtn.Size = new Size(328, 46);
-            loginBtn.TabIndex = 6;
+            loginBtn.TabIndex = 4;
             loginBtn.Text = "LOGIN";
             loginBtn.UseVisualStyleBackColor = false;
             loginBtn.Click += loginBtn_Click;
@@ -153,7 +154,7 @@
             signupBtn.Margin = new Padding(4, 3, 4, 3);
             signupBtn.Name = "signupBtn";
             signupBtn.Size = new Size(328, 46);
-            signupBtn.TabIndex = 7;
+            signupBtn.TabIndex = 5;
             signupBtn.Text = "REGISTER";
             signupBtn.UseVisualStyleBackColor = false;
             signupBtn.Click += button2_Click;
@@ -166,9 +167,10 @@
             login_showPass.Margin = new Padding(4, 3, 4, 3);
             login_showPass.Name = "login_showPass";
             login_showPass.Size = new Size(117, 20);
-            login_showPass.TabIndex = 8;
+            login_showPass.TabIndex = 3;
             login_showPass.Text = "Show Password";
             login_showPass.UseVisualStyleBackColor = true;
+            login_showPass.CheckedChanged += login_showPass_CheckedChanged;
             // 
             // label1
             // 

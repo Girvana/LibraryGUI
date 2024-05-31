@@ -8,56 +8,48 @@ namespace LibraryGUI
 {
     internal class Account
     {
-        //## Fields ##
-        protected int id;
-        protected string name = "";
-        protected int feesOwed = 0;
-        protected List<MediaItem> borrowedMedia = new List<MediaItem>();
-
-        //## Properties ##
-        public int ID
+        private string username;
+        private string passwordhash;
+        private string salt;
+        private int accountID;
+        private string email;
+        public string Username
         {
-            get => id;
+            get => username;
         }
-        public string Name
+        public string Hash
         {
-            get => name;
+            get => passwordhash;
         }
-        public int FeesOwed
+        public string Salt
         {
-            get => feesOwed;
-            internal set => feesOwed = value;
+            get => salt;
         }
-        public List<MediaItem> BorrowedMediaList
-        {
-            get => borrowedMedia;
-        }
-        public string[][] BorrowedMedia
+        public byte[] SaltBytes
         {
             get
             {
-                var output = new List<string[]>();
-                foreach (MediaItem media in borrowedMedia)
-                {
-                    output.Add(media.ToArray());
-                }
-                return output.ToArray();
+                return Convert.FromBase64String(salt);
             }
         }
-        //## Constructors ##
-        public Account()
+        public int ID
+        {
+            get => accountID;
+            internal set => accountID = value;
+        }
+        public string Email
+        {
+            get => email;
+        }
+        public Account(string username, string passwordhash, string salt, string email, int id = 0)
         {
 
+            this.username = username;
+            this.passwordhash = passwordhash;
+            this.salt = salt;
+            this.accountID = id;
+            this.email = email;
         }
-        public Account(string name) // Person class should only be used for initial library account, Staff or Student should be used for other instances
-        {
-            this.name = name;
-        }
-        internal Account(int id, string name, int feesOwed)//To be used for Storage Loading
-        {
-            this.id = id;
-            this.name = name;
-            this.feesOwed = feesOwed;
-        }
+
     }
 }

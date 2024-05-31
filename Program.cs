@@ -15,6 +15,7 @@ namespace LibraryGUI
         [STAThread]
         static void Main()
         {
+            DatabaseHandler.InitializeDatabase();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

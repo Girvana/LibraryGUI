@@ -22,7 +22,10 @@ namespace LibraryGUI
         {
             get => id;
         }
-
+        public string ISBN
+        {
+            get => isbn;
+        }
         public string Authors
         {
             get
@@ -53,8 +56,8 @@ namespace LibraryGUI
                 var info = GoogleBooksRetriever.GetInfoFromISBN(isbn);
                 this.isbn = isbn;
                 this.title = info.title;
-                this.description = info.description;
                 this.authors = info.authors;
+                this.description = info.description;
                 this.id = NextID;
                 NextID++;
             }
@@ -63,10 +66,18 @@ namespace LibraryGUI
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        internal MediaInfo(int id, string isbn, List<string> authors, string title, string description)//To be called by storage class.
+        {
+            this.id = id;
+            this.isbn = isbn;
+            this.title = title;
+            this.authors = authors;
+            this.description = description;
+        }
         //## Methods ##
         public override string ToString()
         {
-            return $"{ID}█{Authors}█{Title}█{Description}";
+            return $"{ID}█{ISBN}█{Authors}█{Title}█{Description}";
         }
 
         /// <summary>

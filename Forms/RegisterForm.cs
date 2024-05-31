@@ -14,16 +14,6 @@ namespace LibraryGUI
             InitializeComponent();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void signIn_btn_Click(object sender, EventArgs e)
         {
             LoginForm lform = new LoginForm();
@@ -31,7 +21,7 @@ namespace LibraryGUI
             this.Hide();
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void exitButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
@@ -43,69 +33,52 @@ namespace LibraryGUI
                 MessageBox.Show("Please fill all blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
-            {/*
-                if (connect.State != ConnectionState.Open)
+            {
+                string username = AccountHandler.CheckUsername(register_username.Text);
+                string password = AccountHandler.CheckPassword(register_password.Text);
+                string email = AccountHandler.CheckEmail(register_email.Text);
+                if (username != "" && password != "")
                 {
-                    try
+                    var newAccount = AccountHandler.CreateAccount(username, password, email);
+                    if (newAccount is not null)
                     {
-                        connect.Open();
-
-                        String checkUsername = "SELECT COUNT(*) FROM users WHERE username = @username";
-
-                        using (SqlCommand checkCMD = new SqlCommand(checkUsername, connect))
-                        {
-                            checkCMD.Parameters.AddWithValue("@username", register_username.Text.Trim());
-                            int count = (int)checkCMD.ExecuteScalar();
-
-                            if (count >= 1)
-                            {
-                                MessageBox.Show(register_username.Text.Trim()
-                                    + " is already taken", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                            else
-                            {
-                                // TO GET THE DATE TODAY
-                                DateTime day = DateTime.Today;
-
-                                String insertData = "INSERT INTO users (email, username, password, date_register) " +
-                                    "VALUES(@email, @username, @password, @date)";
-
-                                using (SqlCommand insertCMD = new SqlCommand(insertData, connect))
-                                {
-                                    insertCMD.Parameters.AddWithValue("@email", register_email.Text.Trim());
-                                    insertCMD.Parameters.AddWithValue("@username", register_username.Text.Trim());
-                                    insertCMD.Parameters.AddWithValue("@password", register_password.Text.Trim());
-                                    insertCMD.Parameters.AddWithValue("@date", day.ToString());
-
-                                    insertCMD.ExecuteNonQuery();
-
-                                    MessageBox.Show("Register successfully!", "Information Message"
-                                        , MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                                    LoginForm lForm = new LoginForm();
-                                    lForm.Show();
-                                    this.Hide();
-                                }
-                            }
-                        }
-
+                        DatabaseHandler.SaveAccount(newAccount);
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error connecting Database: " + ex, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                    }
-                    finally
-                    {
-                        connect.Close();
-                    }
-                }*/
+                }
             }
         }
 
         private void register_showPass_CheckedChanged(object sender, EventArgs e)
         {
             register_password.PasswordChar = register_showPass.Checked ? '\0' : '*';
+        }
+
+        private void register_username_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13) // Enter key
+            {
+                register_password.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void register_password_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13) // Enter key
+            {
+                register_email.Focus();
+                e.Handled = true;
+            }
+        }
+
+        private void register_email_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13) // Enter key
+            {
+                register_btn_Click(register_btn, null);
+                e.Handled = true;
+            }
         }
     }
 

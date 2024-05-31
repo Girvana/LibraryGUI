@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibraryGUI
 {
-    internal class Student : Account
+    internal class Student : User
     {
         //## Fields ##
         const int maxBorrows = 5;

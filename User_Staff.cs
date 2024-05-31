@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibraryGUI
 {
-    internal class Staff : Account
+    internal class Staff : User
     {
         //## Fields ##
         private static int NextID = -1;

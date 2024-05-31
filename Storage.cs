@@ -9,7 +9,7 @@ namespace LibraryGUI
 {
     internal class Storage
     {
-        private string basePath = @"../../../Resources";
+        internal static string basePath = @"../../../Resources";
 
     }
 }
