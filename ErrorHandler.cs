@@ -18,7 +18,7 @@ namespace LibraryGUI
         {
         }
         
-        public void Add(string message)
+        public void Message(string message)
         {
             errors.Add(message);
             hasError = true;
@@ -33,6 +33,11 @@ namespace LibraryGUI
             {
                 this.title = "Multiple Issues";
             }
+        }
+        public void Add(string message, string title)
+        {
+            Message(message);
+            Title(title);
         }
 
         public void Clear()

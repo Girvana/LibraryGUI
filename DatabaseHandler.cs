@@ -26,18 +26,41 @@ namespace LibraryGUI
             return $"Data Source={databasePath}; Version=3;";
         }
 
-
         //Database Generation
-        public static void CreatePassDB()
+        public static void CreateDB(string DBPath)
+        {
+                SQLiteConnection.CreateFile(DBPath);
+        }
+        public static void CreatePasswordTable(bool dropOld = false)
         {
             using var connection = new SQLiteConnection(ConnectionString(passDBPath));
             {
-                SQLiteConnection.CreateFile(passDBPath);
                 connection.Open();
-                string tableString = "Create Table passwords(Username varchar(24) UNIQUE NOT NULL, Hash varchar(44) NOT NULL, Salt varchar(44) NOT NULL, Email varchar(254) NOT NULL, AccountID int NOT NULL)";
-                var command = new SQLiteCommand(tableString, connection);
-                command.ExecuteNonQuery();
+                string tableString = "CREATE TABLE IF NOT EXISTS passwords(Username varchar(24) UNIQUE NOT NULL, Hash varchar(44) NOT NULL, Salt varchar(44) NOT NULL, Email varchar(254) NOT NULL, AccountID INT NOT NULL, Admin INT NOT NULL)";
+                var create = new SQLiteCommand(tableString, connection);
+                create.ExecuteNonQuery();
                 connection.Close();
+            }
+        }
+        public static void ReplacePasswordTable(bool confirm) //compeltely wipe passwords table and replace with empty. used for testing purposes.
+        {
+            if (!confirm)
+            {
+                throw new ArgumentException("Table Replacement not confirmed. Did you mean to use CreatePasswordTable()");
+            }
+            else
+            {
+                using var connection = new SQLiteConnection(ConnectionString(passDBPath));
+                {
+                    connection.Open();
+                    string dropString = "DROP TABLE IF EXISTS passwords;";
+                    var drop = new SQLiteCommand(dropString, connection);
+                    drop.ExecuteNonQuery();
+                    string tableString = "CREATE TABLE IF NOT EXISTS passwords(Username varchar(24) UNIQUE NOT NULL, Hash varchar(44) NOT NULL, Salt varchar(44) NOT NULL, Email varchar(254) NOT NULL, AccountID INT NOT NULL, Admin INT NOT NULL)";
+                    var create = new SQLiteCommand(tableString, connection);
+                    create.ExecuteNonQuery();
+                    connection.Close();
+                }
             }
         }
 
@@ -50,10 +73,10 @@ namespace LibraryGUI
             }
             if (!File.Exists(passDBPath))
             {
-                CreatePassDB();
+                SQLiteConnection.CreateFile(passDBPath);
             }
+            CreatePasswordTable();
         }
-
         //Account Data
         public static bool AccountExists(string username)
         {
@@ -70,8 +93,7 @@ namespace LibraryGUI
                 catch(Exception ex)
                 {
                     ErrorHandler error = new();
-                    error.Title("Error Checking if Account Exists");
-                    error.Add($"Something went wrong checking the database. This error should not occur. Caused by: \n{ex.Message}");
+                    error.Add($"Something went wrong checking the database. This error should not occur. Caused by: \n{ex.Message}", "Error Checking if Account Exists");
                     error.Display();
                     throw new Exception("Account Check Exception - Data can not be verified, unsafe to continue");
                 }
@@ -95,11 +117,11 @@ namespace LibraryGUI
                         bool newAccount = false;
                         if (AccountExists(account.Username))
                         {
-                            query = "UPDATE passwords SET Hash = @Hash, Salt = @Salt, Email = @Email, AccountID = @AccountID WHERE Username = @Username";
+                            query = "UPDATE passwords SET Hash = @Hash, Salt = @Salt, Email = @Email, AccountID = @AccountID, Admin = @Admin WHERE Username = @Username";
                         }
                         else
                         {
-                            query = "INSERT INTO passwords VALUES (@Username, @Hash, @Salt, @Email, @AccountID)";
+                            query = "INSERT INTO passwords VALUES (@Username, @Hash, @Salt, @Email, @AccountID, @Admin)";
                             newAccount = true;
                         }
                         SQLiteCommand command = new SQLiteCommand(query, connection);
@@ -108,8 +130,10 @@ namespace LibraryGUI
                         command.Parameters.AddWithValue("@Salt", account.Salt);
                         command.Parameters.AddWithValue("@Email", account.Email);
                         command.Parameters.AddWithValue("@AccountID", account.ID);
+                        command.Parameters.AddWithValue("@Admin", account.StoreAdmin);
                         command.ExecuteNonQuery();
                         if (newAccount) MessageBox.Show("Registered successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        else MessageBox.Show("Account information updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
@@ -136,7 +160,7 @@ namespace LibraryGUI
                     using var reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        account = new Account(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4));
+                        account = new Account(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetBoolean(5));
                     }
                     connection.Close();
                 }

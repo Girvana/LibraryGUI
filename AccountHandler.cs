@@ -8,8 +8,17 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 namespace LibraryGUI
 {
+    
     internal class AccountHandler
     {
+        //###### NOTICE ##############################################################################################################
+        // Account handling in this app provides no real security                                                                   #
+        // the passwords database is accessible and could be swapped out for a dummy db                                             #
+        // as well as openly containing all the information needed to create an identical account object                            #
+        // the goal of this class is purely to allow for a login experience in the app while not storing passwords in plaintext     #
+        //###########################################################################################################################
+
+
         //## Fields ##
         private static Account activeAccount = null;
         private const int keySize = 256 / 8;
@@ -43,17 +52,17 @@ namespace LibraryGUI
                 bool isValid = true;
                 if (!re.IsMatch(username))
                 {
-                    handler.Add("Username must contain only English letters and numbers");
+                    handler.Message("Username must contain only English letters and numbers");
                     isValid = false;
                 }
                 if (username.Length < 6)
                 {
-                    handler.Add("Username must be at least 6 characters");
+                    handler.Message("Username must be at least 6 characters");
                     isValid = false;
                 }
                 if (username.Length > 24)
                 {
-                    handler.Add("Username must be at most 24 characters");
+                    handler.Message("Username must be at most 24 characters");
                     isValid = false;
                 }
                 if (!isValid)
@@ -71,17 +80,17 @@ namespace LibraryGUI
             bool isValid = true;
             if (!re.IsMatch(password))
             {
-                handler.Add("Password must have at least one letter, one number, and one special character (@$!%*#?&)");
+                handler.Message("Password must have at least one letter, one number, and one special character (@$!%*#?&)");
                 isValid = false;
             }
             if (password.Length < 8)
             {
-                handler.Add("Username must be at least 8 characters");
+                handler.Message("Username must be at least 8 characters");
                 isValid = false;
             }
             if (password.Length > 32)
             {
-                handler.Add("Password must be at most 32 characters");
+                handler.Message("Password must be at most 32 characters");
                 isValid = false;
             }
             if (!isValid)
@@ -98,12 +107,12 @@ namespace LibraryGUI
             bool isValid = true;
             if (!re.IsMatch(email))
             {
-                handler.Add("Email address is not in a recognized format.");
+                handler.Message("Email address is not in a recognized format.");
                 isValid = false;
             }
             if (email.Length > 254)
             {
-                handler.Add("Email too long!");
+                handler.Message("Email too long!");
                 isValid = false;
             }
             if (!isValid)

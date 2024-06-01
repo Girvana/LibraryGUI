@@ -10,7 +10,7 @@ namespace LibraryGUI
     {
         //## Fields ##
         const int maxBorrows = 5;
-        private int borrowCount = 0;
+        const int maxSimultaneousBorrows = 3;
         private static int NextID = 1;
         //## Properties ##
         public int BorrowCount
@@ -38,6 +38,11 @@ namespace LibraryGUI
         internal static void ForceNextID(int id)
         {
             NextID = id;
+        }
+
+        public override bool CanBorrow()
+        {
+            return base.CanBorrow();
         }
     }
 }

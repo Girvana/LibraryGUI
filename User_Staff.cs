@@ -9,6 +9,8 @@ namespace LibraryGUI
     internal class Staff : User
     {
         //## Fields ##
+        static int maxBorrows = int.MaxValue;
+        static int maxSimultaneousBorrows = 10;
         private static int NextID = -1;
         private bool isAdmin = false;
         //## Properties ##
@@ -30,6 +32,11 @@ namespace LibraryGUI
         internal static void ForceNextID(int id)
         {
             NextID = id;
+        }
+
+        public override bool CanBorrow()
+        {
+            return base.CanBorrow();
         }
     }
 }

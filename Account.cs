@@ -13,6 +13,7 @@ namespace LibraryGUI
         private string salt;
         private int accountID;
         private string email;
+        bool isAdmin;
         public string Username
         {
             get => username;
@@ -41,7 +42,18 @@ namespace LibraryGUI
         {
             get => email;
         }
-        public Account(string username, string passwordhash, string salt, string email, int id = 0)
+        public bool IsAdmin
+        {
+            get => isAdmin;
+        }
+        internal int StoreAdmin
+        {
+            get
+            {
+                if (isAdmin) return 1; else return 0;
+            }
+        }
+        public Account(string username, string passwordhash, string salt, string email, int id = 0, bool isAdmin = false)
         {
 
             this.username = username;
@@ -49,6 +61,7 @@ namespace LibraryGUI
             this.salt = salt;
             this.accountID = id;
             this.email = email;
+            this.isAdmin = isAdmin;
         }
 
     }

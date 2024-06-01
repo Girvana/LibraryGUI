@@ -18,7 +18,11 @@ namespace LibraryGUI
             string apiResponse = client.DownloadString($"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"); //google books api call
             
             var json = JObject.Parse(apiResponse);
-            if ((int)json["totalItems"] != 1) throw new Exception("Invalid ISBN"); //throw invalid isbn exception if isbn is not found
+            if ((int)json["totalItems"] != 1)
+            {
+                Program.errorHandler.Add("Book data not found for specified ISBN", "Invalid ISBN");
+                throw new Exception("Invalid ISBN"); //throw invalid isbn exception if isbn is not found
+            }
             var info = json["items"][0]["volumeInfo"]; //get just the volumeinfo object
 
             //pull required info from the json object
