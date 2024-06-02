@@ -320,7 +320,7 @@
             setAdmin.Text = "setADMIN";
             setAdmin.UseVisualStyleBackColor = false;
             setAdmin.Visible = false;
-            setAdmin.Click += this.setAdmin_Click;
+            setAdmin.Click += setAdmin_Click;
             // 
             // btn_createStaff
             // 
@@ -376,6 +376,7 @@
             btn_save.TabIndex = 51;
             btn_save.Text = "SAVE";
             btn_save.UseVisualStyleBackColor = false;
+            btn_save.Visible = false;
             btn_save.Click += btn_save_Click;
             // 
             // btn_cancel
@@ -394,6 +395,7 @@
             btn_cancel.TabIndex = 50;
             btn_cancel.Text = "CANCEL";
             btn_cancel.UseVisualStyleBackColor = false;
+            btn_cancel.Visible = false;
             btn_cancel.Click += btn_cancel_Click;
             // 
             // txt_lastname_edit

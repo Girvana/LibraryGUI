@@ -15,8 +15,6 @@ namespace LibraryGUI
         public AddBooks()
         {
             InitializeComponent();
-
-            //lbx_auto.DataSource = Library.MediaInfo;
             lbx_auto.DisplayMember = "Title";
             lbx_auto.ValueMember = "ISBN";
             foreach(MediaInfo info in Library.MediaInfo.Values)
@@ -69,8 +67,12 @@ namespace LibraryGUI
 
         private void lbx_auto_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string selectedISBN = (lbx_auto.Items[lbx_auto.SelectedIndex] as MediaInfo).ISBN;
-            txt_ISBNAuto.Text = selectedISBN;
+            if(lbx_auto.SelectedIndex != -1)
+            {
+                string selectedISBN = (lbx_auto.Items[lbx_auto.SelectedIndex] as MediaInfo).ISBN;
+                txt_ISBNAuto.Text = selectedISBN;
+            }
+
         }
     }
 }

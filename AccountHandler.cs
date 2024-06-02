@@ -153,6 +153,13 @@ namespace LibraryGUI
             }
             return false;
         }
+        public static void LogOut()
+        {
+            if (activeAccount != null)
+            {
+                activeAccount = null;
+            }
+        }
         public static Account CreateAccount(string username, string password, string email)
         {
             if (DatabaseHandler.AccountExists(username))
@@ -168,6 +175,11 @@ namespace LibraryGUI
         }
         public static void AccociateUserWithAccount(int ID)
         {
+            if(ID == 0)
+            {
+                activeAccount.ID = 0;
+                return;
+            }
             if(Library.Users.ContainsKey(ID))
             {
                 activeAccount.ID = ID;

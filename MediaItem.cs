@@ -22,6 +22,10 @@ namespace LibraryGUI
         {
             get => id;
         }
+        public MediaInfo Details
+        { 
+            get => details;
+        }
         public string MediaType
         {
             get
@@ -48,6 +52,14 @@ namespace LibraryGUI
             get => returnDate;
             private set => returnDate = value;
         }
+
+        public string Info
+        {
+            get
+            {
+                return $"  [{ID.ToString("00000")}]   |  {MediaType}";
+            }
+        }
         //## Constructors ##
         public MediaItem(MediaInfo mediaInfo, bool isDigital)
         {
@@ -64,18 +76,6 @@ namespace LibraryGUI
         internal static void ForceNextID(int id)
         {
             NextID = id;
-        }
-        public string[] ToArray()
-        {
-            var values = new List<string>();
-            values.Add(id.ToString());
-            values.Add($"{IsDigital}");
-            if (initialCheckOutDate != DateTime.MaxValue) { values.Add(initialCheckOutDate.ToString()); }
-            else { values.Add("Not Checked Out"); }
-            if (returnDate != DateTime.MaxValue) { values.Add(returnDate.ToString()); }
-            else { values.Add("Not Checked Out"); }
-            values.Add(details.ISBN);
-            return values.ToArray();
         }
 
         public string GetTitle()

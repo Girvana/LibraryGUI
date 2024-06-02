@@ -7,7 +7,9 @@
         public MainForm()
         {
             InitializeComponent();
+            HideViews();
             UpdateInfo();
+            view_profile.Visible = true;
         }
         private void HideViews()
         {
@@ -48,8 +50,9 @@
             if (check == DialogResult.Yes)
             {
                 LoginForm lForm = new LoginForm();
+                AccountHandler.LogOut();
                 lForm.Show();
-                this.Hide();
+                this.Close();
             }
         }
 
@@ -66,6 +69,7 @@
                 return;
             }
             HideViews();
+            view_library.LoadData(this, null);
             view_library.Visible = true;
             currentPage = "Library";
             UpdateInfo();

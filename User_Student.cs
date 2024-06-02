@@ -9,7 +9,7 @@ namespace LibraryGUI
     internal class Student : User
     {
         //## Fields ##
-        static new int maxBorrows = 5;
+        static new int maxBorrows = 10;
         static new int maxSimultaneousBorrows = 3;
         private static int NextID = 1;
         //## Properties ##

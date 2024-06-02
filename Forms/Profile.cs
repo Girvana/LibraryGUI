@@ -26,7 +26,6 @@ namespace LibraryGUI
             }
             UpdateInfo();
             if (newAccount) StartEdit(true);
-            
         }
 
         public void StartEdit(bool isNew = false)
@@ -81,12 +80,23 @@ namespace LibraryGUI
 
         private void UpdateInfo()
         {
+            if (AccountHandler.ActiveAccount is not null) // should always be true, did this way to stop VS Designer breaking
+            {
+                newAccount = AccountHandler.ActiveAccount.ID == 0;
+                account = AccountHandler.ActiveAccount;
+            }
             if (account.IsAdmin) setAdmin.Text = "Revoke Admin";
             else setAdmin.Text = "Make Admin";
             txt_username.Text = account.Username;
             txt_email.Text = account.Email;
             if (!newAccount)
             {
+                if (!Library.Users.ContainsKey(account.ID)) //User Data can not be loaded
+                {
+                    AccountHandler.AccociateUserWithAccount(0);
+                    UpdateInfo(); //calls function again with new account = true because ID = 0
+                    return; //prevent first call finishing
+                }
                 var user = Library.Users[account.ID];
                 txt_firstname_edit.Text = user.FirstName;
                 txt_lastname_edit.Text = user.LastName;

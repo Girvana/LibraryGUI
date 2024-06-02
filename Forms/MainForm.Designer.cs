@@ -39,9 +39,9 @@
             library_btn = new Button();
             greet_label = new Label();
             panel3 = new Panel();
+            view_addBooks = new AddBooks();
             view_profile = new Profile();
             view_library = new LibraryView();
-            view_addBooks = new AddBooks();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -198,15 +198,23 @@
             // 
             // panel3
             // 
+            panel3.Controls.Add(view_library);
             panel3.Controls.Add(view_addBooks);
             panel3.Controls.Add(view_profile);
-            panel3.Controls.Add(view_library);
             panel3.Dock = DockStyle.Fill;
             panel3.Location = new Point(0, 40);
             panel3.Margin = new Padding(4, 3, 4, 3);
             panel3.Name = "panel3";
             panel3.Size = new Size(1027, 652);
             panel3.TabIndex = 2;
+            // 
+            // view_addBooks
+            // 
+            view_addBooks.Location = new Point(0, 0);
+            view_addBooks.Margin = new Padding(4, 3, 4, 3);
+            view_addBooks.Name = "view_addBooks";
+            view_addBooks.Size = new Size(1027, 652);
+            view_addBooks.TabIndex = 4;
             // 
             // view_profile
             // 
@@ -224,14 +232,6 @@
             view_library.Size = new Size(1027, 652);
             view_library.TabIndex = 0;
             view_library.Visible = false;
-            // 
-            // view_addBooks
-            // 
-            view_addBooks.Location = new Point(0, 0);
-            view_addBooks.Margin = new Padding(4, 3, 4, 3);
-            view_addBooks.Name = "view_addBooks";
-            view_addBooks.Size = new Size(1027, 652);
-            view_addBooks.TabIndex = 4;
             // 
             // MainForm
             // 

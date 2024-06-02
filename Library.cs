@@ -151,7 +151,6 @@ namespace LibraryGUI
                 Program.errorHandler.Add("Media not in borrowed list, media could not be returned", "Problem Returning Media");
             }
         }
-
         public static void Renew(int mediaID)
         {
             var media = GetMedia(mediaID);
@@ -208,6 +207,11 @@ namespace LibraryGUI
         {
             if (mediaInfo.ContainsKey(isbn)) return true;
             else return false;
+        }
+        public static List<MediaItem> GetItemsFromISBN(string isbn)
+        {
+            var list = mediaItems.Values.Where(i => i.Details.ISBN == isbn).ToList();
+            return list;
         }
     }
 }
