@@ -18,23 +18,28 @@ namespace LibraryGUI
             string apiResponse = client.DownloadString($"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"); //google books api call
             
             var json = JObject.Parse(apiResponse);
-            if ((int)json["totalItems"] != 1)
+            if ((int)json["totalItems"] == 0)
             {
                 Program.errorHandler.Add("Book data not found for specified ISBN", "Invalid ISBN");
                 throw new Exception("Invalid ISBN"); //throw invalid isbn exception if isbn is not found
             }
             var info = json["items"][0]["volumeInfo"]; //get just the volumeinfo object
 
-            //pull required info from the json object
-            string title = info["title"].ToString();
-            string description = info["description"].ToString();
+            string description = "[Not in Record]";
+            string title = "[Not in Record]";
             List<string> authors = new();
-            var authorList = info["authors"].ToList();
-            foreach (var author in authorList)
+            //pull required info from the json object
+            if (info["title"] is not null) title = info["title"].ToString();
+            if (info["description"] is not null) description = info["description"].ToString();
+            if (info["authors"] is not null)
             {
-                authors.Add(author.ToString());
+                var authorList = info["authors"].ToList();
+                foreach (var author in authorList)
+                {
+                    authors.Add(author.ToString());
+                }
             }
-
+            else authors.Add("[Not in Record]");
             return (title, description, authors);
         }
 

@@ -41,6 +41,7 @@
             panel3 = new Panel();
             view_profile = new Profile();
             view_library = new LibraryView();
+            view_addBooks = new AddBooks();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -101,7 +102,6 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(256, 652);
             panel2.TabIndex = 1;
-            panel2.Paint += panel2_Paint;
             // 
             // logout_btn
             // 
@@ -151,7 +151,6 @@
             IssueBooks_btn.Text = "!!! UNUSED BUTTON !!!";
             IssueBooks_btn.UseVisualStyleBackColor = true;
             IssueBooks_btn.Visible = false;
-            IssueBooks_btn.Click += IssueBooks_btn_Click;
             // 
             // profile_btn
             // 
@@ -199,6 +198,7 @@
             // 
             // panel3
             // 
+            panel3.Controls.Add(view_addBooks);
             panel3.Controls.Add(view_profile);
             panel3.Controls.Add(view_library);
             panel3.Dock = DockStyle.Fill;
@@ -224,6 +224,14 @@
             view_library.Size = new Size(1027, 652);
             view_library.TabIndex = 0;
             view_library.Visible = false;
+            // 
+            // view_addBooks
+            // 
+            view_addBooks.Location = new Point(0, 0);
+            view_addBooks.Margin = new Padding(4, 3, 4, 3);
+            view_addBooks.Name = "view_addBooks";
+            view_addBooks.Size = new Size(1027, 652);
+            view_addBooks.TabIndex = 4;
             // 
             // MainForm
             // 
@@ -258,10 +266,8 @@
         private System.Windows.Forms.Button logout_btn;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button addBooks_btn;
-        private LibraryView issuedBooks1;
-        private ReturnBooks returnBooks1;
-        private ProfileEdit dashboard1;
         private LibraryView view_library;
         private Profile view_profile;
+        private AddBooks view_addBooks;
     }
 }

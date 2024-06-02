@@ -53,6 +53,10 @@ namespace LibraryGUI
         {
             get => borrowLength;
         }
+        public static Dictionary<string, MediaInfo> MediaInfo
+        {
+            get => mediaInfo;
+        }
         //## Constructors ##
         public Library()
         { 
@@ -78,7 +82,7 @@ namespace LibraryGUI
             }
             else
             {
-                Program.errorHandler.Add("ISBN not available", "Problem Adding Media");
+                Program.errorHandler.Add("ISBN already in use", "Problem Adding Media");
             }
         }
         public static void RemoveMedia(int mediaID)
@@ -199,6 +203,11 @@ namespace LibraryGUI
                 return mediaItems[mediaID];
             }
             else return null;
+        }
+        public static bool ContainsMediaInfo(string isbn)
+        {
+            if (mediaInfo.ContainsKey(isbn)) return true;
+            else return false;
         }
     }
 }

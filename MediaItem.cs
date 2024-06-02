@@ -30,7 +30,7 @@ namespace LibraryGUI
                 else return "Physical";
             }
         }
-        public int MediaInt
+        public int IsDigital
         {
             get
             {
@@ -69,12 +69,12 @@ namespace LibraryGUI
         {
             var values = new List<string>();
             values.Add(id.ToString());
-            values.Add($"{MediaInt}");
+            values.Add($"{IsDigital}");
             if (initialCheckOutDate != DateTime.MaxValue) { values.Add(initialCheckOutDate.ToString()); }
             else { values.Add("Not Checked Out"); }
             if (returnDate != DateTime.MaxValue) { values.Add(returnDate.ToString()); }
             else { values.Add("Not Checked Out"); }
-            values.Add(details.ID.ToString());
+            values.Add(details.ISBN);
             return values.ToArray();
         }
 

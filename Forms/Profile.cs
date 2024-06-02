@@ -125,7 +125,7 @@ namespace LibraryGUI
         {
             var user = new Staff(txt_firstname_edit.Text, txt_lastname_edit.Text);
             Library.AddUser(user);
-            AccountHandler.AssociateAccount(user.ID);
+            AccountHandler.AccociateUserWithAccount(user.ID);
             newAccount = false;
             StopEdit();
         }
@@ -134,7 +134,7 @@ namespace LibraryGUI
         {
             var user = new Student(txt_firstname_edit.Text, txt_lastname_edit.Text);
             Library.AddUser(user);
-            AccountHandler.AssociateAccount(user.ID);
+            AccountHandler.AccociateUserWithAccount(user.ID);
             newAccount = false;
             StopEdit();
         }

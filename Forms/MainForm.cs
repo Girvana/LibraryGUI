@@ -2,10 +2,22 @@
 {
     public partial class MainForm : Form
     {
-        
+        string currentPage = "";
+
         public MainForm()
         {
             InitializeComponent();
+            UpdateInfo();
+        }
+        private void HideViews()
+        {
+            view_addBooks.Visible = false;
+            view_library.Visible = false;
+            view_profile.Visible = false;
+        }
+        private void UpdateInfo()
+        {
+            LibrarySystemLabel.Text = $"Library System | {currentPage}";
             greet_label.Text = $"Welcome {AccountHandler.ActiveAccount.Name}";
             if (AccountHandler.ActiveAccount.IsAdmin) addBooks_btn.Visible = true;
             else addBooks_btn.Visible = false;
@@ -18,18 +30,15 @@
 
         private void addBooks_btn_Click(object sender, EventArgs e)
         {
-            dashboard1.Visible = false;
-            //   addBooks1.Visible = true;
-            returnBooks1.Visible = false;
-            issuedBooks1.Visible = false;
-        }
-
-        private void IssueBooks_btn_Click(object sender, EventArgs e)
-        {
-            dashboard1.Visible = false;
-            //   addBooks1.Visible = false;
-            returnBooks1.Visible = false;
-            issuedBooks1.Visible = true;
+            if (CheckForNewAccount())
+            {
+                MessageBox.Show("Please save User info first", "Operation Forbidden");
+                return;
+            }
+            HideViews();
+            view_addBooks.Visible = true;
+            currentPage = "Add Media";
+            UpdateInfo();
         }
 
         private void logout_btn_Click_1(object sender, EventArgs e)
@@ -49,11 +58,6 @@
             Application.Exit();
         }
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void Library_btn_Click(object sender, EventArgs e)
         {
             if (CheckForNewAccount())
@@ -61,14 +65,23 @@
                 MessageBox.Show("Please save User info first", "Operation Forbidden");
                 return;
             }
+            HideViews();
             view_library.Visible = true;
-            view_profile.Visible = false;
+            currentPage = "Library";
+            UpdateInfo();
         }
 
         private void profile_btn_Click(object sender, EventArgs e)
         {
-            view_library.Visible = false;
+            if (CheckForNewAccount())
+            {
+                MessageBox.Show("Please save User info first", "Operation Forbidden");
+                return;
+            }
+            HideViews();
             view_profile.Visible = true;
+            currentPage = "Profile";
+            UpdateInfo();
         }
 
     }

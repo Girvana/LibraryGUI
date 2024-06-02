@@ -19,6 +19,8 @@ namespace LibraryGUI
         // the goal of this class is purely to allow for a login experience in the app while not storing passwords in plaintext     #
         //###########################################################################################################################
 
+        //Default Credentials : [admin] AdminAccount, AdminP4$$
+        //                      [user] TestUser1, P4$$word
 
         //## Fields ##
         private static Account activeAccount = null;
@@ -164,7 +166,7 @@ namespace LibraryGUI
             activeAccount = account;
             return account;
         }
-        public static void AssociateAccount(int ID)
+        public static void AccociateUserWithAccount(int ID)
         {
             if(Library.Users.ContainsKey(ID))
             {
@@ -176,7 +178,6 @@ namespace LibraryGUI
                 MessageBox.Show("Account Association Failed", "Error"); //Debug message, not meant to be error handled, shouldn't be possible to hit
             }
         }
-
         public static void SetAdmin()
         {
             AdminLogin adminLogin = new AdminLogin();
