@@ -1,6 +1,6 @@
 ﻿namespace LibraryGUI
 {
-    partial class Form1
+    partial class Loading
     {
         /// <summary>
         /// Required designer variable.

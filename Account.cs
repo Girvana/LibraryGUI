@@ -18,6 +18,20 @@ namespace LibraryGUI
         {
             get => username;
         }
+        public string Name
+        {
+            get
+            {
+                if (Library.Users.ContainsKey(accountID))
+                {
+                    if (Library.Users[accountID] != null)
+                    {
+                        return (Library.Users[accountID].Name);
+                    }
+                }
+                return username;
+            }
+        }
         public string Hash
         {
             get => passwordhash;
@@ -40,11 +54,13 @@ namespace LibraryGUI
         }
         public string Email
         {
-            get => email;
+            get => email; 
+            set => email = value;
         }
         public bool IsAdmin
         {
             get => isAdmin;
+            internal set => isAdmin = value;
         }
         internal int StoreAdmin
         {

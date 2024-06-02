@@ -9,8 +9,8 @@ namespace LibraryGUI
     internal class Student : User
     {
         //## Fields ##
-        const int maxBorrows = 5;
-        const int maxSimultaneousBorrows = 3;
+        static new int maxBorrows = 5;
+        static new int maxSimultaneousBorrows = 3;
         private static int NextID = 1;
         //## Properties ##
         public int BorrowCount
@@ -22,11 +22,11 @@ namespace LibraryGUI
             get => maxBorrows;
         }
         //## Constructors ##
-        public Student(string name) : base(name)
+        public Student(string firstName, string lastName) : base(firstName, lastName)
         {
             id = NextID++;
         }
-        internal Student(int id, string name, int feesOwed, int borrowCount) : base(id, name, feesOwed)//To be used for Storage Loading
+        internal Student(int id, string firstName, string lastName, int feesOwed, int borrowCount) : base(id, firstName, lastName, feesOwed)//To be used for Storage Loading
         {
             this.borrowCount = borrowCount;
         }

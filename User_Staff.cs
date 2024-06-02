@@ -9,21 +9,19 @@ namespace LibraryGUI
     internal class Staff : User
     {
         //## Fields ##
-        static int maxBorrows = int.MaxValue;
-        static int maxSimultaneousBorrows = 10;
+        static new int maxBorrows = int.MaxValue;
+        static new int maxSimultaneousBorrows = 10;
         private static int NextID = -1;
-        private bool isAdmin = false;
         //## Properties ##
 
         //## Constructors ##
-        public Staff(string name, bool isAdmin = false) : base(name)
+        public Staff(string firstName, string lastName) : base(firstName, lastName)
         {
             id = NextID--;
-            this.isAdmin = isAdmin;
         }
-        internal Staff(int id, string name, int feesOwed, bool isAdmin) : base(id, name, feesOwed)
+        internal Staff(int id, string firstName,string lastName, int feesOwed) : base(id, firstName, lastName, feesOwed)
         {
-            this.isAdmin = isAdmin;
+
         } //To be used for Storage Loading
 
         /// <summary>

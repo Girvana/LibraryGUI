@@ -17,4 +17,10 @@
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Forms\AdminLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

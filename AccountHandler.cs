@@ -6,6 +6,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 namespace LibraryGUI
 {
     
@@ -124,7 +125,7 @@ namespace LibraryGUI
         }
 
         //Handler
-        public static void Login(string username, string password)
+        public static bool Login(string username, string password, bool admin = false)
         {
             if (!DatabaseHandler.AccountExists(username))
             {
@@ -135,13 +136,20 @@ namespace LibraryGUI
                 var account = DatabaseHandler.LoadAccount(username);
                 if (account.Hash == HashPass(account.SaltBytes, password))
                 {
-                    activeAccount = account;
+                    if (admin && account.IsAdmin)
+                    {
+                        activeAccount.IsAdmin = true;
+                        DatabaseHandler.SaveAccount(activeAccount);
+                        return true;
+                    }
+                    else activeAccount = account;
                 }
                 else
                 {
                     MessageBox.Show("Incorrect Password", "Login Failed", MessageBoxButtons.OK);
                 }
             }
+            return false;
         }
         public static Account CreateAccount(string username, string password, string email)
         {
@@ -163,8 +171,17 @@ namespace LibraryGUI
                 activeAccount.ID = ID;
                 Library.Users[ID].Username = activeAccount.Username;
             }
+            else
+            {
+                MessageBox.Show("Account Association Failed", "Error"); //Debug message, not meant to be error handled, shouldn't be possible to hit
+            }
         }
 
+        public static void SetAdmin()
+        {
+            AdminLogin adminLogin = new AdminLogin();
+            adminLogin.Show();
+        }
 
     }
 }

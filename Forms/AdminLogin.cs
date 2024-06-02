@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LibraryGUI
 {
-    public partial class LoginForm : Form
+    public partial class AdminLogin : Form
     {
-        public LoginForm()
+        public AdminLogin()
         {
             InitializeComponent();
         }
@@ -33,23 +33,23 @@ namespace LibraryGUI
                 string password = AccountHandler.CheckPassword(login_password.Text, Program.errorHandler);
                 if (username != "" && password != "")
                 {
-                    AccountHandler.Login(username, password);
+                    if(AccountHandler.Login(username, password, true))
+                    {
+                        this.Close();
+                    }
+                    else
+                    {
+                        Program.errorHandler.Add("Admin Credentials Not Entered", "Invalid Login");
+                    }
                 }
                 Program.errorHandler.Display();
-
-                if (AccountHandler.ActiveAccount is not null)
-                {
-                    MainForm mainform = new MainForm();
-                    mainform.Show();
-                    this.Hide();
-                }
             }
 
         }
 
         private void exitButton_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.Close();
         }
 
         private void login_showPass_CheckedChanged(object sender, EventArgs e)

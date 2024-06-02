@@ -1,6 +1,6 @@
 ﻿namespace LibraryGUI
 {
-    partial class IssuedBooks
+    partial class LibraryView
     {
         /// <summary> 
         /// Required designer variable.

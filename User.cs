@@ -9,12 +9,13 @@ namespace LibraryGUI
     internal class User
     {
         //## Fields ##
-        static int maxSimultaneousBorrows = int.MaxValue;   //modified by subclasses
-        static int maxBorrows = int.MaxValue;               //modified by subclasses
+        protected static int maxSimultaneousBorrows = int.MaxValue;   //modified by subclasses
+        protected static int maxBorrows = int.MaxValue;               //modified by subclasses
         protected int borrowCount = 0;
         protected int id;
-        protected string name = "";
-        protected int feesOwed = 0;
+        protected string firstName = "";
+        protected string lastName = "";
+        protected decimal feesOwed = 0;
         protected List<int> borrowedMedia = new List<int>();
         protected string username = "";
 
@@ -26,9 +27,19 @@ namespace LibraryGUI
         }
         public string Name
         {
-            get => name;
+            get => firstName + " " + lastName;
         }
-        public int FeesOwed
+        public string FirstName
+        {
+            get => firstName;
+            set => firstName = value;
+        }
+        public string LastName
+        {
+            get => lastName;
+            set => lastName = value;
+        }
+        public decimal FeesOwed
         {
             get => feesOwed;
             internal set => feesOwed = value;
@@ -42,19 +53,34 @@ namespace LibraryGUI
             get => username;
             set => username = value;
         }
+        public string BorrowCount
+        {
+            get => borrowCount.ToString();
+        }
+        public string BorrowMax
+        { 
+            get
+            {
+                if (maxBorrows != int.MaxValue)
+                    return maxBorrows.ToString();
+                else return "No Maximum Borrows";
+            }
+        }
         //## Constructors ##
         public User()
         {
 
         }
-        public User(string name) // Person class should only be used for initial library account, Staff or Student should be used for other instances
+        public User(string firstName, string lastName) // Person class should only be used for initial library account, Staff or Student should be used for other instances
         {
-            this.name = name;
+            this.firstName = firstName;
+            this.lastName = lastName;
         }
-        internal User(int id, string name, int feesOwed)//To be used for Storage Loading
+        internal User(int id, string firstName, string lastName, int feesOwed)//To be used for Storage Loading
         {
             this.id = id;
-            this.name = name;
+            this.firstName = firstName;
+            this.lastName = lastName;
             this.feesOwed = feesOwed;
         }
 

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace LibraryGUI
 {
-    public partial class IssuedBooks : UserControl
+    public partial class LibraryView : UserControl
     {
-        public IssuedBooks()
+        public LibraryView()
         {
             InitializeComponent();
         }
