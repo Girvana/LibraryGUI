@@ -19,7 +19,7 @@ namespace LibraryGUI
     internal class DatabaseHandler
     {
         //## Fields ##
-        private static string resourcePath = Storage.basePath;
+        private static string resourcePath = @"../../../Resources";
         //Password Database
         private static string passDBName = "passwd.db3";
         private static string passDBPath = Path.Combine(resourcePath, passDBName);
