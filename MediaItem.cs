@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace LibraryGUI
 {
     internal class MediaItem
     {
         //## Fields ##
-        private static int NextID = 1;
+        private static int nextID = 1;
         private int id;
         private bool isDigital;
         private MediaInfo details;
@@ -18,6 +20,10 @@ namespace LibraryGUI
         private DateTime returnDate = DateTime.MaxValue;            //maxvalue used to represent unborrowed media state
 
         //## Properties ##
+        public static int NextID
+        {
+            get => nextID;
+        }
         public int ID
         {
             get => id;
@@ -76,10 +82,18 @@ namespace LibraryGUI
         //## Constructors ##
         public MediaItem(MediaInfo mediaInfo, bool isDigital)
         {
-            id = NextID;
-            NextID++;
+            id = nextID;
+            nextID++;
             details = mediaInfo;
             this.isDigital = isDigital;
+        }
+        public MediaItem(int id, bool isDigital, MediaInfo details, DateTime initialCheckOutDate, DateTime returnDate)
+        {
+            this.id = id;
+            this.isDigital= isDigital;
+            this.details = details;
+            this.initialCheckOutDate = initialCheckOutDate;
+            this.returnDate = returnDate;
         }
         //## Methods ##
 
@@ -88,7 +102,7 @@ namespace LibraryGUI
         /// </summary>
         internal static void ForceNextID(int id)
         {
-            NextID = id;
+            nextID = id;
         }
 
         public string GetTitle()
@@ -131,6 +145,12 @@ namespace LibraryGUI
         {
             initialCheckOutDate = DateTime.MaxValue;
             returnDate = DateTime.MaxValue;
+            
+        }
+
+        public void ExportForDatabase(int borrowerID = 0)
+        {
+            DatabaseHandler.SaveMediaItem(id, IsDigital, details.ISBN, initialCheckOutDate.ToString("s"), returnDate.ToString("s"), borrowerID);
         }
     }
 }

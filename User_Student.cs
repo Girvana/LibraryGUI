@@ -11,7 +11,7 @@ namespace LibraryGUI
         //## Fields ##
         static new int maxBorrows = 10;
         static new int maxSimultaneousBorrows = 3;
-        private static int NextID = 1;
+        private static int nextID = 1;
         //## Properties ##
         public override string BorrowMax
         {
@@ -35,12 +35,26 @@ namespace LibraryGUI
         {
             get => borrowCount;
         }
+        public static int NextID
+        {
+            get => nextID;
+        }
+        public static int[] BorrowInfo
+        {
+            get
+            {
+                var borrowInfo = new int[2];
+                borrowInfo[0] = maxBorrows;
+                borrowInfo[1] = maxSimultaneousBorrows;
+                return borrowInfo.ToArray();
+            }
+        }
         //## Constructors ##
         public Student(string firstName, string lastName) : base(firstName, lastName)
         {
-            id = NextID++;
+            id = nextID++;
         }
-        internal Student(int id, string firstName, string lastName, int feesOwed, int borrowCount) : base(id, firstName, lastName, feesOwed)//To be used for Storage Loading
+        internal Student(int id, string firstName, string lastName, int feesOwed, int borrowCount, string username) : base(id, firstName, lastName, feesOwed, borrowCount, username)//To be used for Storage Loading
         {
             this.borrowCount = borrowCount;
         }
@@ -51,7 +65,12 @@ namespace LibraryGUI
         /// </summary>
         internal static void ForceNextID(int id)
         {
-            NextID = id;
+            nextID = id;
+        }
+        internal static void SetBorrowValues(int maxBorrows, int maxSimultaneousBorrows)
+        {
+            Student.maxBorrows = maxBorrows;
+            Student.maxSimultaneousBorrows = maxSimultaneousBorrows;
         }
 
         public override bool CanBorrow()

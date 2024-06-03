@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace LibraryGUI
 {
@@ -72,12 +74,14 @@ namespace LibraryGUI
                 mediaInfo.Add(isbn, new MediaInfo(isbn));
             }
             var newMedia = new MediaItem(mediaInfo[isbn], isDigital);
+            newMedia.ExportForDatabase();
             mediaItems.Add(newMedia.ID, newMedia);
         }
         public static void AddMediaInfo(MediaInfo info)
         {
             if (!mediaInfo.ContainsKey(info.ISBN))
             {
+                info.ExportForDatabase();
                 mediaInfo.Add(info.ISBN, info);
             }
             else
@@ -108,6 +112,8 @@ namespace LibraryGUI
             }
             else
             {
+                user.ExportForDatabase();
+                
                 users.Add(user.ID, user);
             }
         }
@@ -129,6 +135,7 @@ namespace LibraryGUI
             {
                 borrower.Borrow(mediaID);
                 media.CheckOut(borrowLength);
+                media.ExportForDatabase(userID);
                 borrowedItems.Add(mediaID, userID);
                 MessageBox.Show($"Borrowed {GetMedia(mediaID).Details.Title}, ID:  {mediaID.ToString("00000")}", "Borrow Success");
             }
@@ -218,6 +225,133 @@ namespace LibraryGUI
         {
             var list = mediaItems.Values.Where(i => (i.Details.ISBN == isbn && MediaIsAvailable(i.ID))).ToList();
             return list;
+        }
+
+        //Storage
+        public static void ExportForDatabase(bool fullExport = false)
+        {
+            string borrowValues = $"{Student.BorrowInfo[0]},{Student.BorrowInfo[1]},{Staff.BorrowInfo[0]},{Staff.BorrowInfo[1]}";
+            DatabaseHandler.SaveLibrary(penaltyRate, borrowLength, maxRenewals, LastOverdueCheck.ToString("s"), Student.NextID, Staff.NextID, MediaItem.NextID, borrowValues);
+            if (fullExport)
+            {
+                ExportUsers();
+                ExportMediaItems();
+                ExportMediaInfo();
+            }
+        }
+        public static void ExportNextUserIDs()
+        {
+            DatabaseHandler.SaveIDs(Student.NextID, Staff.NextID, MediaItem.NextID);
+        }
+
+        public static void ExportUsers()
+        {
+            foreach (var user in users.Values) 
+            {
+                user.ExportForDatabase();
+            }
+        }
+        public static void ExportMediaItems()
+        {
+            foreach (var mediaItem in mediaItems.Values)
+            {
+                int borrowerID = 0;
+                if(borrowedItems.ContainsKey(mediaItem.ID))
+                {
+                    borrowerID = borrowedItems[mediaItem.ID];
+                }
+                mediaItem.ExportForDatabase(borrowerID);
+            }
+        }
+        public static void ExportMediaInfo()
+        {
+            foreach (var mediaInfo in mediaInfo.Values)
+            {
+                mediaInfo.ExportForDatabase();
+            }
+        }
+        public static void ImportFromDatabase()
+        {
+            if (DatabaseHandler.LibrarySaveExists())
+            {
+                var values = DatabaseHandler.LoadLibrary();
+                penaltyRate = values.penaltyRate;
+                borrowLength = values.borrowLength;
+                maxRenewals = values.maxRenewals;
+                lastOverdueCheck = DateTime.Parse(values.lastOverdueCheck);
+                Student.ForceNextID(values.studentNextID);
+                Staff.ForceNextID(values.staffNextID);
+                MediaItem.ForceNextID(values.itemNextID);
+                //BorrowValues is ugly but was running out of time to properly plan databases
+                string[] borrowValues = values.borrowValues.Split(',');
+                int[] set = new int[4];
+                for (int i = 0; i < 4; i++)
+                {
+                    set[i] = Int32.Parse(borrowValues[i]);
+                }
+                Student.SetBorrowValues(set[0], set[1]);
+                Staff.SetBorrowValues(set[2], set[3]);
+            }
+            DatabaseHandler.LoadMediaInfo();
+            DatabaseHandler.LoadUsers();
+            DatabaseHandler.LoadMediaItems();
+
+        }
+
+        public static void ImportMediaItem(int id, int isDigital, string isbn, string initialCheckOutDate, string returnDate, int borrowerID)
+        {
+            if (!mediaItems.ContainsKey(id))
+            {
+                if (!mediaInfo.ContainsKey(isbn))
+                {
+                    var newInfo = new MediaInfo(isbn);
+                    AddMediaInfo(newInfo);
+                }
+                var info = mediaInfo[isbn];
+                var iDate = DateTime.Parse(initialCheckOutDate);
+                var rDate = DateTime.Parse(returnDate);
+                bool digital = isDigital == 1;
+                var newItem = new MediaItem(id, digital, info, iDate, rDate);
+                mediaItems.Add(newItem.ID, newItem);
+                if(borrowerID != 0 && users.ContainsKey(borrowerID)) 
+                {
+                    borrowedItems.Add(id, borrowerID);
+                    users[borrowerID].Borrow(id, true);
+                }
+            }
+        }
+
+        public static void ImportMediaInfo(string isbn, string authors, string title, string description)
+        {
+            if (!mediaInfo.ContainsKey(isbn))
+            {
+                var sb = new StringBuilder(authors);
+                sb.Length -= 2;
+                var authorList = sb.ToString().Split("|").ToList();
+                mediaInfo.Add(isbn, new MediaInfo(isbn, authorList, title, description));
+            }
+        }
+
+        public static void ImportUser(int id, string firstName, string lastName, int feesOwed, int borrowCount, string username)
+        {
+            User newUser = null;
+            if (id < 0)
+            {
+                newUser = new Staff(id, firstName, lastName, feesOwed, borrowCount, username);
+            }
+            else if (id > 0)
+            {
+                newUser = new Student(id, firstName, lastName, feesOwed, borrowCount, username);
+            }
+            else return;
+            if (users.ContainsKey(newUser.ID))
+            {
+                Program.errorHandler.Add("User ID already exists, user could not be added", "Problem Adding User");
+            }
+            else
+            {
+                users.Add(newUser.ID, newUser);
+            }
         }
     }
 }

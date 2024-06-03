@@ -175,7 +175,9 @@ namespace LibraryGUI
                 MediaItem a = lbx_borrowed.SelectedItem as MediaItem;
                 Library.Return(a.ID);
             }
+            UpdateInfo();
         }
+
 
         private void btn_renew_Click(object sender, EventArgs e)
         {
@@ -184,6 +186,7 @@ namespace LibraryGUI
                 MediaItem a = lbx_borrowed.SelectedItem as MediaItem;
                 Library.Renew(a.ID);
             }
+            UpdateInfo();
         }
     }
 }

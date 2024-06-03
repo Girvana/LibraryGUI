@@ -49,7 +49,8 @@ namespace LibraryGUI
 
         private void exitButton_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+
+            Program.CloseApplication();
         }
 
         private void login_showPass_CheckedChanged(object sender, EventArgs e)
@@ -60,7 +61,7 @@ namespace LibraryGUI
         {
             if (e.KeyChar == (char)13) // Enter key
             {
-                loginBtn_Click(loginBtn, null);
+                login_password.Focus();
                 e.Handled = true;
             }
         }

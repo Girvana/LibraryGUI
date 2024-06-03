@@ -37,6 +37,19 @@ namespace LibraryGUI
         {
             get => title;
         }
+        public string ExportAuthors
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (string s in authors)
+                {
+                    sb.Append(s + "|");
+                }
+                sb.Length -=1;
+                return sb.ToString();
+            }
+        }
         public string Description
         {
             get => description;
@@ -66,9 +79,10 @@ namespace LibraryGUI
             this.description = description;
         }
         //## Methods ##
-        public override string ToString()
+        public void ExportForDatabase()
         {
-            return $"{ISBN}█{Authors}█{Title}█{Description}";
+
+            DatabaseHandler.SaveMediaInfo(isbn, ExportAuthors, title, description);
         }
     }
 

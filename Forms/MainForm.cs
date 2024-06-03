@@ -55,12 +55,13 @@
                 AccountHandler.LogOut();
                 lForm.Show();
                 this.Close();
+                Library.ExportForDatabase(true);
             }
         }
 
         private void label1_Click_1(object sender, EventArgs e)
         {
-            Application.Exit();
+            Program.CloseApplication();
         }
 
         private void Library_btn_Click(object sender, EventArgs e)

@@ -155,10 +155,7 @@ namespace LibraryGUI
         }
         public static void LogOut()
         {
-            if (activeAccount != null)
-            {
-                activeAccount = null;
-            }
+            activeAccount = null;
         }
         public static Account CreateAccount(string username, string password, string email)
         {
@@ -184,6 +181,8 @@ namespace LibraryGUI
             {
                 activeAccount.ID = ID;
                 Library.Users[ID].Username = activeAccount.Username;
+                DatabaseHandler.SaveAccount(activeAccount);
+                Library.Users[ID].ExportForDatabase();
             }
             else
             {

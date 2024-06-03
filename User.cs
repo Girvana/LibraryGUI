@@ -93,12 +93,14 @@ namespace LibraryGUI
             this.firstName = firstName;
             this.lastName = lastName;
         }
-        internal User(int id, string firstName, string lastName, int feesOwed)//To be used for Storage Loading
+        internal User(int id, string firstName, string lastName, int feesOwed, int borrowCount, string username)//To be used for Storage Loading
         {
             this.id = id;
             this.firstName = firstName;
             this.lastName = lastName;
             this.feesOwed = feesOwed;
+            this.username = username;
+            this.borrowCount = borrowCount;
         }
 
         //## Methods ##
@@ -119,10 +121,16 @@ namespace LibraryGUI
             return false;
         }
 
-        public virtual void Borrow(int mediaID)
+        public virtual void Borrow(int mediaID, bool fromLoad = false)
         {
-            borrowCount++;
+            if (!fromLoad) borrowCount++;
             borrowedMedia.Add(mediaID);
         }
+
+        public void ExportForDatabase()
+        {
+            DatabaseHandler.SaveUser(id, borrowCount, firstName, lastName, feesOwed.ToString(), username);
+        }
+
     }
 }

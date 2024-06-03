@@ -23,7 +23,7 @@ namespace LibraryGUI
 
         private void exitButton_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Program.CloseApplication();
         }
 
         private void register_btn_Click(object sender, EventArgs e)
@@ -43,8 +43,15 @@ namespace LibraryGUI
                     if (newAccount is not null)
                     {
                         DatabaseHandler.SaveAccount(newAccount);
+                        AccountHandler.Login(username, password);
                     }
                     Program.errorHandler.Display();
+                    if (AccountHandler.ActiveAccount is not null)
+                    {
+                        MainForm mainform = new MainForm();
+                        mainform.Show();
+                        this.Hide();
+                    }
                 }
             }
         }
