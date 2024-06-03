@@ -60,7 +60,7 @@ namespace LibraryGUI
         {
             if (e.KeyChar == (char)13) // Enter key
             {
-                login_password.Focus();
+                loginBtn_Click(loginBtn, null);
                 e.Handled = true;
             }
         }

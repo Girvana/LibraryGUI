@@ -135,6 +135,7 @@
             search_btn.TabIndex = 16;
             search_btn.Text = "SEARCH";
             search_btn.UseVisualStyleBackColor = false;
+            search_btn.Click += search_btn_Click;
             // 
             // title_label
             // 
@@ -174,6 +175,7 @@
             borrow_btn.TabIndex = 17;
             borrow_btn.Text = "BORROW";
             borrow_btn.UseVisualStyleBackColor = false;
+            borrow_btn.Click += borrow_btn_Click;
             // 
             // panel1
             // 
@@ -196,12 +198,13 @@
             // 
             // availaible_listbx
             // 
+            availaible_listbx.Font = new Font("Cascadia Code", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             availaible_listbx.FormattingEnabled = true;
-            availaible_listbx.ItemHeight = 15;
             availaible_listbx.Location = new Point(596, 59);
             availaible_listbx.Margin = new Padding(4, 3, 4, 3);
             availaible_listbx.Name = "availaible_listbx";
-            availaible_listbx.Size = new Size(367, 109);
+            availaible_listbx.Size = new Size(367, 100);
+            availaible_listbx.Sorted = true;
             availaible_listbx.TabIndex = 24;
             // 
             // available_label

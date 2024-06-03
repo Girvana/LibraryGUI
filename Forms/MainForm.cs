@@ -13,6 +13,8 @@
         }
         private void HideViews()
         {
+            view_profile.UpdateInfo();
+            view_library.LoadAllData();
             view_addBooks.Visible = false;
             view_library.Visible = false;
             view_profile.Visible = false;
@@ -69,7 +71,6 @@
                 return;
             }
             HideViews();
-            view_library.LoadData(this, null);
             view_library.Visible = true;
             currentPage = "Library";
             UpdateInfo();

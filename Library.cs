@@ -17,7 +17,7 @@ namespace LibraryGUI
         private static Dictionary<int, User> users = new Dictionary<int, User>();
         private static Dictionary<int, MediaItem> mediaItems = new Dictionary<int, MediaItem>();
         private static Dictionary<string, MediaInfo> mediaInfo = new Dictionary<string, MediaInfo>();
-        private static Dictionary<int, int> borrowedItems = new Dictionary<int, int>();
+        private static Dictionary<int, int> borrowedItems = new Dictionary<int, int>(); //<mediaItem ID, user ID>
         private static DateTime lastOverdueCheck = DateTime.Today;
         //## Properties ##
         internal static Dictionary<int, User> Users //Used for storage access
@@ -115,7 +115,7 @@ namespace LibraryGUI
         //Borrowing
         public static void TryBorrow(int mediaID, int userID)
         {
-            if(!ValidateMediaID(mediaID) && !ValidateUserID(userID) && !MediaIsAvailable(mediaID))
+            if(ValidateMediaID(mediaID) && ValidateUserID(userID) && MediaIsAvailable(mediaID))
             {
                 DoBorrow(mediaID, userID);
             }
@@ -130,6 +130,7 @@ namespace LibraryGUI
                 borrower.Borrow(mediaID);
                 media.CheckOut(borrowLength);
                 borrowedItems.Add(mediaID, userID);
+                MessageBox.Show($"Borrowed {GetMedia(mediaID).Details.Title}, ID:  {mediaID.ToString("00000")}", "Borrow Success");
             }
             else
             {
@@ -187,6 +188,11 @@ namespace LibraryGUI
         }
 
         //Information
+        public static List<MediaInfo> SearchMediaInfo(string searchTerm)
+        {
+            var results = mediaInfo.Values.Where(i => (i.Title.Contains(searchTerm) || i.Authors.Contains(searchTerm))).ToList();
+            return results;
+        }
         public static User GetBorrower(int mediaID)
         {
             if (borrowedItems.ContainsKey(mediaID))
@@ -210,7 +216,7 @@ namespace LibraryGUI
         }
         public static List<MediaItem> GetItemsFromISBN(string isbn)
         {
-            var list = mediaItems.Values.Where(i => i.Details.ISBN == isbn).ToList();
+            var list = mediaItems.Values.Where(i => (i.Details.ISBN == isbn && MediaIsAvailable(i.ID))).ToList();
             return list;
         }
     }

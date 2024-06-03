@@ -44,9 +44,17 @@ namespace LibraryGUI
             get => feesOwed;
             internal set => feesOwed = value;
         }
-        public List<int> BorrowedMediaList
+        public List<MediaItem> BorrowedMediaList
         {
-            get => borrowedMedia;
+            get
+            {
+                List<MediaItem> list = new List<MediaItem>();
+                foreach (int ID in borrowedMedia)
+                {
+                    list.Add(Library.GetMedia(ID));
+                }
+                return list;
+            }
         }
         public string Username
         {
@@ -57,13 +65,22 @@ namespace LibraryGUI
         {
             get => borrowCount.ToString();
         }
-        public string BorrowMax
-        { 
+        public virtual string BorrowMax
+        {
             get
             {
                 if (maxBorrows != int.MaxValue)
                     return maxBorrows.ToString();
                 else return "No Maximum Borrows";
+            }
+        }
+        public virtual string BorrowMaxSimultaneous
+        {
+            get
+            {
+                if (maxSimultaneousBorrows != int.MaxValue)
+                    return maxSimultaneousBorrows.ToString();
+                else return "No Maximum";
             }
         }
         //## Constructors ##

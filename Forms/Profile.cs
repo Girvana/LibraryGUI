@@ -15,7 +15,7 @@ namespace LibraryGUI
     {
 
         bool newAccount = true;
-        Account account = new Account("","","","",0,false);
+        Account account = new Account("", "", "", "", 0, false);
         public Profile()
         {
             InitializeComponent();
@@ -51,7 +51,7 @@ namespace LibraryGUI
                 txt_firstname_edit.Text = Library.Users[account.ID].FirstName;
                 txt_lastname_edit.Text = Library.Users[account.ID].LastName;
                 btn_cancel.Visible = true;
-                btn_save.Visible = true; 
+                btn_save.Visible = true;
             }
             else
             {
@@ -73,12 +73,12 @@ namespace LibraryGUI
             btn_save.Visible = false;
             btn_CreateStudent.Visible = false;
             btn_createStaff.Visible = false;
-            if (account.IsAdmin) isAdmin.Visible = true; 
+            if (account.IsAdmin) isAdmin.Visible = true;
             else isAdmin.Visible = false;
             UpdateInfo();
         }
 
-        private void UpdateInfo()
+        internal void UpdateInfo()
         {
             if (AccountHandler.ActiveAccount is not null) // should always be true, did this way to stop VS Designer breaking
             {
@@ -100,15 +100,14 @@ namespace LibraryGUI
                 var user = Library.Users[account.ID];
                 txt_firstname_edit.Text = user.FirstName;
                 txt_lastname_edit.Text = user.LastName;
-                txt_borrowed.Text = $"{user.BorrowCount} / {user.BorrowMax}";
+                txt_borrowsUsed.Text = $"{user.BorrowCount} / {user.BorrowMax}";
+                txt_borrowed.Text = $"{user.BorrowedMediaList.Count.ToString()} / {user.BorrowMaxSimultaneous}";
                 txt_feesOwed.Text = string.Format("{0:C2}", user.FeesOwed);
                 txt_name.Text = user.Name;
+                lbx_borrowed.DataSource = user.BorrowedMediaList;
+                lbx_borrowed.DisplayMember = "TitleInfo";
+                lbx_borrowed.Refresh();
             }
-            PopulateBorrowedBox();
-        }
-        private void PopulateBorrowedBox()
-        {
-
         }
 
         public void btn_edit_Click(object sender, EventArgs e)
@@ -151,7 +150,7 @@ namespace LibraryGUI
 
         private void setAdmin_Click(object sender, EventArgs e)
         {
-            if(account.IsAdmin)
+            if (account.IsAdmin)
             {
                 DialogResult confirmation = MessageBox.Show("Are you sure you want to remove admin rights from this account?", "Remove Admin", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (confirmation == DialogResult.Yes)
@@ -165,6 +164,26 @@ namespace LibraryGUI
                 AccountHandler.SetAdmin();
             }
             UpdateInfo();
+        }
+
+
+
+        private void return_btn_Click(object sender, EventArgs e)
+        {
+            if (lbx_borrowed.SelectedIndex >= 0)
+            {
+                MediaItem a = lbx_borrowed.SelectedItem as MediaItem;
+                Library.Return(a.ID);
+            }
+        }
+
+        private void btn_renew_Click(object sender, EventArgs e)
+        {
+            if (lbx_borrowed.SelectedIndex >= 0)
+            {
+                MediaItem a = lbx_borrowed.SelectedItem as MediaItem;
+                Library.Renew(a.ID);
+            }
         }
     }
 }

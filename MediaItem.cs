@@ -30,8 +30,8 @@ namespace LibraryGUI
         {
             get
             {
-                if (isDigital) return "Digital";
-                else return "Physical";
+                if (isDigital) return "Digital ";
+                else return           "Physical";
             }
         }
         public int IsDigital
@@ -52,12 +52,25 @@ namespace LibraryGUI
             get => returnDate;
             private set => returnDate = value;
         }
-
+        public string TitleInfo
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(GetTitle());
+                if (sb.Length > 35)
+                {
+                    sb.Length = 32;
+                    sb.Append("...");
+                }
+                return sb.ToString().PadRight(35)+ " | " +Info;
+            }
+        }
         public string Info
         {
             get
             {
-                return $"  [{ID.ToString("00000")}]   |  {MediaType}";
+                return $"{MediaType}  [{ID.ToString("00000")}]";
             }
         }
         //## Constructors ##
@@ -112,6 +125,7 @@ namespace LibraryGUI
         public void Renew(int days)
         {
             returnDate.AddDays(days);
+            MessageBox.Show($"{GetTitle()} Renewed for {days} days, Now due back on {ReturnDate}","Media Renewed");
         }
         public void Return()
         {

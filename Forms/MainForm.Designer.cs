@@ -39,9 +39,9 @@
             library_btn = new Button();
             greet_label = new Label();
             panel3 = new Panel();
+            view_library = new LibraryView();
             view_addBooks = new AddBooks();
             view_profile = new Profile();
-            view_library = new LibraryView();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -62,13 +62,12 @@
             // LibrarySystemLabel
             // 
             LibrarySystemLabel.AutoSize = true;
-            LibrarySystemLabel.BorderStyle = BorderStyle.FixedSingle;
             LibrarySystemLabel.Font = new Font("Tahoma", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             LibrarySystemLabel.ForeColor = Color.Ivory;
             LibrarySystemLabel.Location = new Point(5, 10);
             LibrarySystemLabel.Margin = new Padding(4, 0, 4, 0);
             LibrarySystemLabel.Name = "LibrarySystemLabel";
-            LibrarySystemLabel.Size = new Size(199, 21);
+            LibrarySystemLabel.Size = new Size(197, 19);
             LibrarySystemLabel.TabIndex = 3;
             LibrarySystemLabel.Text = "Library System | Main Hub";
             // 
@@ -208,6 +207,15 @@
             panel3.Size = new Size(1027, 652);
             panel3.TabIndex = 2;
             // 
+            // view_library
+            // 
+            view_library.Location = new Point(0, 0);
+            view_library.Margin = new Padding(4, 3, 4, 3);
+            view_library.Name = "view_library";
+            view_library.Size = new Size(1027, 652);
+            view_library.TabIndex = 0;
+            view_library.Visible = false;
+            // 
             // view_addBooks
             // 
             view_addBooks.Location = new Point(0, 0);
@@ -223,15 +231,6 @@
             view_profile.Name = "view_profile";
             view_profile.Size = new Size(1027, 652);
             view_profile.TabIndex = 4;
-            // 
-            // view_library
-            // 
-            view_library.Location = new Point(0, 0);
-            view_library.Margin = new Padding(4, 3, 4, 3);
-            view_library.Name = "view_library";
-            view_library.Size = new Size(1027, 652);
-            view_library.TabIndex = 0;
-            view_library.Visible = false;
             // 
             // MainForm
             // 

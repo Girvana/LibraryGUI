@@ -13,7 +13,24 @@ namespace LibraryGUI
         static new int maxSimultaneousBorrows = 10;
         private static int NextID = -1;
         //## Properties ##
-
+        public override string BorrowMax
+        {
+            get
+            {
+                if (maxBorrows != int.MaxValue)
+                    return maxBorrows.ToString();
+                else return "No Maximum Borrows";
+            }
+        }
+        public override string BorrowMaxSimultaneous
+        {
+            get
+            {
+                if (maxSimultaneousBorrows != int.MaxValue)
+                    return maxSimultaneousBorrows.ToString();
+                else return "No Maximum";
+            }
+        }
         //## Constructors ##
         public Staff(string firstName, string lastName) : base(firstName, lastName)
         {

@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            borrow_btn = new Button();
+            return_btn = new Button();
             isAdmin = new Button();
-            textBox7 = new TextBox();
+            txt_borrowsUsed = new TextBox();
             label7 = new Label();
             txt_feesOwed = new TextBox();
             label6 = new Label();
@@ -56,26 +56,28 @@
             txt_email_edit = new TextBox();
             txt_firstname_edit = new TextBox();
             label1 = new Label();
+            btn_renew = new Button();
             panel3.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
-            // borrow_btn
+            // return_btn
             // 
-            borrow_btn.BackColor = Color.FromArgb(50, 82, 21);
-            borrow_btn.FlatAppearance.BorderSize = 0;
-            borrow_btn.FlatAppearance.MouseDownBackColor = Color.SeaGreen;
-            borrow_btn.FlatAppearance.MouseOverBackColor = Color.SeaGreen;
-            borrow_btn.FlatStyle = FlatStyle.Flat;
-            borrow_btn.Font = new Font("Arial", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            borrow_btn.ForeColor = Color.Ivory;
-            borrow_btn.Location = new Point(318, 532);
-            borrow_btn.Margin = new Padding(4, 3, 4, 3);
-            borrow_btn.Name = "borrow_btn";
-            borrow_btn.Size = new Size(117, 38);
-            borrow_btn.TabIndex = 30;
-            borrow_btn.Text = "RETURN MEDIA";
-            borrow_btn.UseVisualStyleBackColor = false;
+            return_btn.BackColor = Color.FromArgb(50, 82, 21);
+            return_btn.FlatAppearance.BorderSize = 0;
+            return_btn.FlatAppearance.MouseDownBackColor = Color.SeaGreen;
+            return_btn.FlatAppearance.MouseOverBackColor = Color.SeaGreen;
+            return_btn.FlatStyle = FlatStyle.Flat;
+            return_btn.Font = new Font("Arial", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            return_btn.ForeColor = Color.Ivory;
+            return_btn.Location = new Point(318, 532);
+            return_btn.Margin = new Padding(4, 3, 4, 3);
+            return_btn.Name = "return_btn";
+            return_btn.Size = new Size(117, 38);
+            return_btn.TabIndex = 30;
+            return_btn.Text = "RETURN MEDIA";
+            return_btn.UseVisualStyleBackColor = false;
+            return_btn.Click += return_btn_Click;
             // 
             // isAdmin
             // 
@@ -97,17 +99,17 @@
             isAdmin.UseVisualStyleBackColor = false;
             isAdmin.Visible = false;
             // 
-            // textBox7
+            // txt_borrowsUsed
             // 
-            textBox7.BackColor = SystemColors.ButtonHighlight;
-            textBox7.BorderStyle = BorderStyle.None;
-            textBox7.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox7.Location = new Point(214, 434);
-            textBox7.Margin = new Padding(4, 3, 4, 3);
-            textBox7.Name = "textBox7";
-            textBox7.ReadOnly = true;
-            textBox7.Size = new Size(235, 15);
-            textBox7.TabIndex = 43;
+            txt_borrowsUsed.BackColor = SystemColors.ButtonHighlight;
+            txt_borrowsUsed.BorderStyle = BorderStyle.None;
+            txt_borrowsUsed.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txt_borrowsUsed.Location = new Point(219, 438);
+            txt_borrowsUsed.Margin = new Padding(4, 3, 4, 3);
+            txt_borrowsUsed.Name = "txt_borrowsUsed";
+            txt_borrowsUsed.ReadOnly = true;
+            txt_borrowsUsed.Size = new Size(235, 15);
+            txt_borrowsUsed.TabIndex = 43;
             // 
             // label7
             // 
@@ -193,9 +195,10 @@
             // 
             panel3.BackColor = SystemColors.ButtonHighlight;
             panel3.BorderStyle = BorderStyle.FixedSingle;
+            panel3.Controls.Add(btn_renew);
             panel3.Controls.Add(txt_borrowed);
             panel3.Controls.Add(label9);
-            panel3.Controls.Add(borrow_btn);
+            panel3.Controls.Add(return_btn);
             panel3.Controls.Add(lbx_borrowed);
             panel3.Controls.Add(label14);
             panel3.Location = new Point(519, 21);
@@ -206,12 +209,13 @@
             // 
             // lbx_borrowed
             // 
+            lbx_borrowed.Font = new Font("Cascadia Code", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lbx_borrowed.FormattingEnabled = true;
-            lbx_borrowed.ItemHeight = 15;
             lbx_borrowed.Location = new Point(42, 92);
             lbx_borrowed.Margin = new Padding(4, 3, 4, 3);
             lbx_borrowed.Name = "lbx_borrowed";
-            lbx_borrowed.Size = new Size(392, 364);
+            lbx_borrowed.Size = new Size(392, 356);
+            lbx_borrowed.Sorted = true;
             lbx_borrowed.TabIndex = 29;
             // 
             // label14
@@ -284,7 +288,7 @@
             panel1.Controls.Add(txt_email_edit);
             panel1.Controls.Add(isAdmin);
             panel1.Controls.Add(txt_firstname_edit);
-            panel1.Controls.Add(textBox7);
+            panel1.Controls.Add(txt_borrowsUsed);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(txt_feesOwed);
             panel1.Controls.Add(label6);
@@ -405,7 +409,7 @@
             txt_lastname_edit.Margin = new Padding(4, 3, 4, 3);
             txt_lastname_edit.Name = "txt_lastname_edit";
             txt_lastname_edit.Size = new Size(164, 22);
-            txt_lastname_edit.TabIndex = 49;
+            txt_lastname_edit.TabIndex = 2;
             txt_lastname_edit.Visible = false;
             // 
             // btn_edit
@@ -433,7 +437,7 @@
             txt_email_edit.Margin = new Padding(4, 3, 4, 3);
             txt_email_edit.Name = "txt_email_edit";
             txt_email_edit.Size = new Size(326, 22);
-            txt_email_edit.TabIndex = 48;
+            txt_email_edit.TabIndex = 3;
             txt_email_edit.Visible = false;
             // 
             // txt_firstname_edit
@@ -443,7 +447,7 @@
             txt_firstname_edit.Margin = new Padding(4, 3, 4, 3);
             txt_firstname_edit.Name = "txt_firstname_edit";
             txt_firstname_edit.Size = new Size(164, 22);
-            txt_firstname_edit.TabIndex = 47;
+            txt_firstname_edit.TabIndex = 1;
             txt_firstname_edit.Visible = false;
             // 
             // label1
@@ -456,6 +460,24 @@
             label1.Size = new Size(45, 16);
             label1.TabIndex = 31;
             label1.Text = "Name:";
+            // 
+            // btn_renew
+            // 
+            btn_renew.BackColor = Color.FromArgb(50, 82, 21);
+            btn_renew.FlatAppearance.BorderSize = 0;
+            btn_renew.FlatAppearance.MouseDownBackColor = Color.SeaGreen;
+            btn_renew.FlatAppearance.MouseOverBackColor = Color.SeaGreen;
+            btn_renew.FlatStyle = FlatStyle.Flat;
+            btn_renew.Font = new Font("Arial", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btn_renew.ForeColor = Color.Ivory;
+            btn_renew.Location = new Point(37, 532);
+            btn_renew.Margin = new Padding(4, 3, 4, 3);
+            btn_renew.Name = "btn_renew";
+            btn_renew.Size = new Size(117, 38);
+            btn_renew.TabIndex = 48;
+            btn_renew.Text = "RENEW";
+            btn_renew.UseVisualStyleBackColor = false;
+            btn_renew.Click += btn_renew_Click;
             // 
             // Profile
             // 
@@ -475,9 +497,9 @@
 
         #endregion
 
-        private Button borrow_btn;
+        private Button return_btn;
         private Button isAdmin;
-        private TextBox textBox7;
+        private TextBox txt_borrowsUsed;
         private Label label7;
         private TextBox txt_feesOwed;
         private Label label6;
@@ -503,5 +525,6 @@
         private Button btn_createStaff;
         private Button btn_CreateStudent;
         private Button setAdmin;
+        private Button btn_renew;
     }
 }
